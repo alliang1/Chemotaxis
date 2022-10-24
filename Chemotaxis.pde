@@ -1,7 +1,9 @@
 //q = hard, w = normal, e = easy, l = restart
 
 Bacteria [] bob;
+
 Bacteria sue;
+
 int woo = (int)(Math.random()*256);
 boolean norm = true;
 boolean easy = false;
@@ -10,52 +12,75 @@ boolean game = false;
 boolean rest = true;
 boolean starty = false;
 
+int score = 0;
+int hiscore = 0;
+
+
 void setup()   
 {     
   size(500, 500);
+
   bob = new Bacteria[5];
-  for(int i = 0 ; i < 5; i++)
+  for (int i = 0; i < 5; i++)
     bob[i] = new Bacteria();
+
+
   sue = new Bacteria();
 }   
 void draw()   
 {    
   background(50);
+  fill(0);
+  rect(0, 0, 500, 50);
+  fill(255);
+
+  text("Score: " + score/5, 80, 25);
+  text("Best: " + hiscore/5, 500-80, 25);
+
+
+  if ( score > hiscore) {
+    hiscore = score;
+  }
+
+
   if (starty == false) {
     textAlign(CENTER);
     textSize(20);
     text("Take the coin if you dare", 250, 250);
     fill(#B752F7);
     stroke(#5FFF78);
-    ellipse(250,290,30,30);
+    ellipse(250, 290, 30, 30);
     fill(#5FFF78);
-    text('$',250,297); 
+    text('$', 250, 297); 
     stroke(0);
     fill(255);
   }
   if (starty == true) {
-    for(int i = 0; i< 5; i++){
-    bob[i].move();
-    bob[i].show();
+    score = score + 1;
+
+    for (int i = 0; i< 5; i++) {
+      bob[i].move();
+      bob[i].show();
     }
 
+
+    //coin
     sue.myMove();
     sue.myShow();
 
 
-
     if (rest == true) {
-      for(int i = 0; i< 5; i++){
-      if (dist(bob[i].myX, bob[i].myY, mouseX, mouseY) < 30) {
-        game = true;
-      }
+      for (int i = 0; i< 5; i++) {
+        if (dist(bob[i].myX, bob[i].myY, mouseX, mouseY) < 30) {
+          game = true;
+        }
       }
     }
     if ( rest == false) {
-      for(int i = 0; i< 5; i++){
-      if (dist(bob[i].myX, bob[i].myY, mouseX, mouseY) > 50) {
-        rest = true;
-      }
+      for (int i = 0; i< 5; i++) {
+        if (dist(bob[i].myX, bob[i].myY, mouseX, mouseY) > 50) {
+          rest = true;
+        }
       }
     }
 
@@ -66,6 +91,7 @@ void draw()
     }
   }//starty
 }//end of draw  
+
 
 void mouseClicked() {
   starty = true;
@@ -93,6 +119,7 @@ void keyPressed() {
     loop();
     game = false;
     rest = false;
+    score = 0;
   }
 }//end of keypressed function
 
@@ -104,6 +131,7 @@ class Bacteria
     myX = 0;
     myY = 250;
   }
+
 
   void move() {
     myX = myX +(int)(Math.random()*5)-2;
@@ -128,14 +156,14 @@ class Bacteria
 
     if (hard == true) {
       if (mouseX > myX)
-        myX = myX + (int)(Math.random()*3)+4;
+        myX = myX + (int)(Math.random()*3)+8;
       else 
-      myX = myX + (int)(Math.random()*3)-5;
+      myX = myX + (int)(Math.random()*3)-9;
 
       if (mouseY > myY)
-        myY = myY + (int)(Math.random()*3)+4;
+        myY = myY + (int)(Math.random()*3)+8;
       else 
-      myY = myY + (int)(Math.random()*3)-5;
+      myY = myY + (int)(Math.random()*3)-9;
     }
 
     if (easy == true) {
@@ -157,25 +185,26 @@ class Bacteria
   }
 
 
+
   void myShow() {
     fill(#B752F7);
     stroke(#5FFF78);
     ellipse(myX, myY, 30, 30);
     fill(#5FFF78);
-    text('$',myX,myY+7); 
+    text('$', myX, myY+7); 
     fill(255);
     stroke(0);
   }
   void show() {
-    fill((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
+    fill((int)(Math.random()*256), (int)(Math.random()*256), (int)(Math.random()*256));
     noStroke();
     ellipse(myX, myY, 50, 50);
-    rect(myX-25,myY,50,30);
-    for(int i=-20;i<21;i+=10)
-      ellipse(myX+i,myY+30,10,10);
+    rect(myX-25, myY, 50, 30);
+    for (int i=-20; i<21; i+=10)
+      ellipse(myX+i, myY+30, 10, 10);
     fill(0);
-    ellipse(myX-10,myY,10,10);
-    ellipse(myX+10,myY,10,10);
+    ellipse(myX-10, myY, 10, 10);
+    ellipse(myX+10, myY, 10, 10);
     fill(255);
     stroke(0);
   }//end of void show
